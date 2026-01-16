@@ -16,10 +16,17 @@ public class RedisStore {
             Student s = new Student(id, "Ad Soyad " + i, "Bilgisayar");
             jedis.set(id, gson.toJson(s));
         }
+        System.out.println("-------------------------------------");
+        System.out.println("REDİS çalışıyor");
+        System.out.println("-------------------------------------");
     }
 
-    public static Student get(String id) {
+    public synchronized static Student get(String id) {
         String json = jedis.get(id);
         return gson.fromJson(json, Student.class);
     }
 }
+
+
+//siege -H "Accept: application/json" -c10 -r100 "http://172.19.48.1:8080/nosql-lab-rd/2025000001"
+//time seq 1 100 | xargs -n1 -P10 -I{} curl -s "http://172.19.48.1:8080/nosql-lab-rd/2025000001"
