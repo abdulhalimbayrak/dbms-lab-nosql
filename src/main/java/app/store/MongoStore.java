@@ -20,10 +20,16 @@ public class MongoStore {
             Student s = new Student(id, "Ad Soyad " + i, "Bilgisayar");
             collection.insertOne(Document.parse(gson.toJson(s)));
         }
+        System.out.println("-------------------------------------");
+        System.out.println("MONGO çalışıyor");
+        System.out.println("-------------------------------------");
     }
 
-    public static Student get(String id) {
+    public synchronized static Student get(String id) {
         Document doc = collection.find(new Document("ogrenciNo", id)).first();
         return doc != null ? gson.fromJson(doc.toJson(), Student.class) : null;
     }
 }
+
+// siege -H "Accept: application/json" -c10 -r100 "http://172.19.48.1:8080/nosql-lab-mon/2025000001"
+// time seq 1 100 | xargs -n1 -P10 -I{} curl -s "http://172.19.48.1:8080/nosql-lab-mon/2025000001"
