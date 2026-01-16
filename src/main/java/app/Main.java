@@ -14,13 +14,13 @@ public class Main {
         HazelcastStore.init();
         MongoStore.init();
 
-        get("/nosql-lab-rd/ogrenci_no=:id", (req, res) ->
+        get("/nosql-lab-rd/:id", (req, res) ->
             gson.toJson(RedisStore.get(req.params(":id"))));
 
-        get("/nosql-lab-hz/ogrenci_no=:id", (req, res) ->
+        get("/nosql-lab-hz/:id", (req, res) ->
             gson.toJson(HazelcastStore.get(req.params(":id"))));
 
-        get("/nosql-lab-mon/ogrenci_no=:id", (req, res) ->
+        get("/nosql-lab-mon/:id", (req, res) ->
             gson.toJson(MongoStore.get(req.params(":id"))));
     }
 }
